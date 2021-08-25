@@ -1,4 +1,3 @@
-
 #include "um_create_mem.h"
 #include <stdint.h>
 #include <stdlib.h>
@@ -15,31 +14,39 @@ int program_length(FILE* fp){
 }
 
 //given the input file, convert into a valid zero segment to return
-void creat_mem(Seq_T mem, FILE *fname){
+uint32_t *creat_mem(Seq_T mem, FILE *fname){
 
     int length = program_length(fname);
     Array_T zero_seg = Array_new(length, sizeof(uint32_t));
+
+    uint32_t *testProgram;
+    testProgram = malloc(length * sizeof(uint32_t));
     for (int i = 0; i < length; i++){
         unsigned char cha;
         //instead of a forloop here we are using hardcoded values because it would be faster with out the math
-        fread(&cha, sizeof(cha), 1, fname);
+        int no_use = fread(&cha, sizeof(cha), 1, fname);
+        
         uint32_t packedByte = 0;
 
         //bitshifting to convert symbol into 4 char values
         packedByte = ((uint32_t)cha << 24) | packedByte;        
-        fread(&cha, sizeof(cha), 1, fname);
+        no_use = fread(&cha, sizeof(cha), 1, fname);
         packedByte = ((uint32_t)cha << 16) | packedByte;
-        fread(&cha, sizeof(cha), 1, fname);
+        no_use = fread(&cha, sizeof(cha), 1, fname);
         packedByte = ((uint32_t)cha << 8) | packedByte;
-        fread(&cha, sizeof(cha), 1, fname);
+        no_use = fread(&cha, sizeof(cha), 1, fname);
         packedByte = ((uint32_t)cha) | packedByte;
-        uint32_t *packedByte_pointer = (uint32_t *)malloc(sizeof(uint32_t));
-        packedByte_pointer = &packedByte;
+         uint32_t *packedByte_pointer = (uint32_t *)malloc(sizeof(uint32_t));
+         packedByte_pointer = &packedByte;
         Array_put(zero_seg, i, (void*)packedByte_pointer);
+        testProgram[i] = packedByte;
+        (void) no_use;
     }
+    
+    
 
     Array_T *store = (Array_T *)malloc(sizeof(Array_T));
     *store = zero_seg;
     Seq_addhi(mem, (void *)store);
-
+    return testProgram;
 }
