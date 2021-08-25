@@ -12,9 +12,9 @@ esac
 
 CC=gcc
 # compile and link against course software and netpbm library
-CFLAGS="-I/$PWD/lib. -I/home/joey/Archive/cii/include -I/home/joey/Archive/pnmrdr -I/home/joey/Archive/include411"  #.h files
+CFLAGS="-I/$PWD/lib"  #.h files
 LIBS="-llocality -larith411 -lcii -lm" #named .a files
-LFLAGS="-L/$PWD/lib -L/home/joey/Archive/pnmrdr -L/home/joey/Archive/lib411" #.a files
+LFLAGS="-L/$PWD/lib" #.a files
 
 # these flags max out warnings and debug info
 FLAGS="-no-pie -g -O0 -Wall -Wextra -Werror -Wfatal-errors -std=c99 -pedantic"
