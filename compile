@@ -35,8 +35,8 @@ done
 # link together .o files + libraries to make executable binaries
 # using one case statement per executable binary
 case $link in
-  all|um) gcc $FLAGS $LFLAGS -o um um.o \
-                  um_create_mem.o\
+  all|um) gcc $FLAGS $LFLAGS -o um um.o array-Lw.o seq-Lw.o\
+    um_create_mem.o\
                   $LIBS 
               linked=yes ;;
 esac
